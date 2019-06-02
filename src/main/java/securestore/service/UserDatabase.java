@@ -25,7 +25,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class UserDatabase {
   private File usersFile = new File("loginData/users.json");
   private Map<String, String> data;
-  private IvParameterSpec ivspec;
 
   public UserDatabase() throws IOException {
     createUsersFile();
@@ -113,6 +112,7 @@ public class UserDatabase {
     str.append(webSiteLength);
     str.append("-");
     str.append(nameLength);
+    str.append("-"); 
     str.append(passwordLegth);
     str.append(":");
     String prefix = str.toString();
@@ -158,8 +158,7 @@ public class UserDatabase {
   private String encrypt(String s) {
     try {
       Cipher cipher = getCipher();
-      byte[] iv = new byte[8];
-      this.ivspec = new IvParameterSpec(iv);
+      IvParameterSpec ivspec=getIvspec();
       Key key = getKey();
       cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
       byte[] encrypted = cipher.doFinal(s.getBytes());
@@ -173,6 +172,7 @@ public class UserDatabase {
     try {
       Cipher cipher = getCipher();
       Key key = getKey();
+      IvParameterSpec ivspec=getIvspec();
       cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
       byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(s));
       return new String(decrypted);
@@ -181,6 +181,11 @@ public class UserDatabase {
     }
   }
 
+  private IvParameterSpec getIvspec()
+  {
+    byte[] iv = new byte[8];
+    return new IvParameterSpec(iv);
+  }
   private Key getKey() {
     return new SecretKeySpec("Parsimon".getBytes(), "DES");
   }
