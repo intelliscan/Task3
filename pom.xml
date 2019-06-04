@@ -11,9 +11,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.upb.magpiebridge</groupId>
-	<artifactId>securePasswordStore</artifactId>
+	<artifactId>onlinePasswordStore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>securePasswordStore</name>
+	<name>onlinePasswordStore</name>
 	<description>Demo project for Spring Boot</description>
 
 	<dependencies>
